@@ -1,0 +1,79 @@
+Punto 1: Rutas entre ciudades
+Prueba de escritorio y árboles de llamadas recursivas
+
+Datos usados
+------------
+Se leen conexiones.csv y consultas.txt de forma perezosa. Las líneas vacías y 
+comentarios (#) se ignoran. Del archivo conexiones.csv (20 líneas):
+- 3 líneas presentan errores de formato o valores no numéricos/negativos (Líneas 11, 12 y 20).
+- 5 líneas se descartan en el proceso de depuración recursiva (Líneas 6, 7, 8, 9 y 18).
+- 11 conexiones válidas conforman el grafo final.
+
+Depuración recursiva (DepuradorConexiones.depurar/2)
+---------------------------------------------------
+Llamada inicial: depurar([L2..L20], acumulador = [], descartadas = 0)
+
+1. L2 (Armenia-Pereira, 45 km): No vista -> Conservar
+2. L3 (Pereira-Manizales, 52 km): No vista -> Conservar
+3. L4 (Armenia-Cartago, 60 km): No vista -> Conservar
+4. L5 (Cartago-Pereira, 25 km): No vista -> Conservar
+5. L6 (Pereira-Armenia, 45 km): Mismo par que L2 y misma distancia -> Descartar (Repetida L2)
+6. L7 (Manizales-Manizales, 0 km): Origen == Destino -> Descartar (Misma ciudad)
+7. L8 (Cartago-Pereira, 30 km): Par Cartago-Pereira existe en L5 con 25 km -> Descartar (Distancia distinta a L5)
+8. L9 (Armenia-Pereira, 45 km): Mismo par que L2 -> Descartar (Repetida L2)
+9. L10 (Armenia-Manizales, 100 km): No vista -> Conservar
+10. L13 (Armenia-Calarca, 6 km): No vista -> Conservar
+11. L14 (Calarca-Tebaida, 24 km): No vista -> Conservar
+12. L15 (Armenia-Tebaida, 20 km): No vista -> Conservar
+13. L16 (Tebaida-Montenegro, 20 km): No vista -> Conservar
+14. L17 (Montenegro-Quimbaya, 11 km): No vista -> Conservar
+15. L18 (Armenia-Tebaida, 17 km): Par Armenia-Tebaida existe en L15 con 20 km -> Descartar (Distancia distinta a L15)
+16. L19 (Cali-Palmira, 30 km): No vista -> Conservar
+17. [] (Caso Base): Devolver las 11 conexiones conservadas e informar 5 descartadas.
+
+Alcance desde Armenia (Stream Infinito)
+--------------------------------------
+Paso 0: Armenia
+Paso 1: Armenia, Calarca, Cartago, Manizales, Pereira, Tebaida
+Paso 2: Armenia, Calarca, Cartago, Manizales, Montenegro, Pereira, Tebaida
+Paso 3: Armenia, Calarca, Cartago, Manizales, Montenegro, Pereira, Quimbaya, Tebaida
+Total de pasos: 4 (se estabiliza en el paso 3 al no descubrirse nuevas ciudades).
+
+Búsqueda recursiva: Armenia -> Manizales
+----------------------------------------
+Exploración en profundidad (DFS). Se descartan vecinos ya presentes en el camino para evitar ciclos.
+
+explorar(Armenia, [Armenia], 0)
+  + Manizales (100 km)
+  |   explorar(Manizales, [Armenia, Manizales], 100)
+  |     -> Destino alcanzado (Ruta 1: Armenia -> Manizales, 2 ciudades, 100 km)
+  + Pereira (45 km)
+  |   explorar(Pereira, [Armenia, Pereira], 45)
+  |     - Armenia: ya visitada, omitir
+  |     + Manizales (52 km)
+  |     |   explorar(Manizales, [Armenia, Pereira, Manizales], 97)
+  |     |     -> Destino alcanzado (Ruta 2: Armenia -> Pereira -> Manizales, 3 ciudades, 97 km)
+  |     + Cartago (25 km)
+  |         explorar(Cartago, [Armenia, Pereira, Cartago], 70)
+  |           - Armenia / Pereira: ya visitadas, omitir (retorna sin ruta)
+  + Cartago (60 km)
+  |   explorar(Cartago, [Armenia, Cartago], 60)
+  |     - Armenia: ya visitada, omitir
+  |     + Pereira (25 km)
+  |         explorar(Pereira, [Armenia, Cartago, Pereira], 85)
+  |           - Armenia / Cartago: ya visitadas, omitir
+  |           + Manizales (52 km)
+  |               explorar(Manizales, [Armenia, Cartago, Pereira, Manizales], 137)
+  |                 -> Destino alcanzado (Ruta 3: Armenia -> Cartago -> Pereira -> Manizales, 4 ciudades, 137 km)
+  + Calarca (6 km)
+  |   explorar(Calarca, [Armenia, Calarca], 6) -> Conecta a Tebaida (sin llegada a Manizales)
+  + Tebaida (20 km)
+      explorar(Tebaida, [Armenia, Tebaida], 20) -> Conecta a Montenegro/Calarca (sin llegada a Manizales)
+
+Resultados Obtenidos:
+- Número de rutas: 3
+- Ruta 1: Armenia -> Manizales (2 ciudades, 100 km)
+- Ruta 2: Armenia -> Cartago -> Pereira -> Manizales (4 ciudades, 137 km)
+- Ruta 3: Armenia -> Pereira -> Manizales (3 ciudades, 97 km)
+- Ruta más corta (menos ciudades): Armenia -> Manizales (2 ciudades)
+- Ruta de menor distancia (km): Armenia -> Pereira -> Manizales (97 km)

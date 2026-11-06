@@ -1,0 +1,7 @@
+=== Alcance desde Armenia ===
+Paso 0: Armenia
+Paso 1: Armenia, Calarca, Cartago, Manizales, Pereira, Tebaida
+Paso 2: Armenia, Calarca, Cartago, Manizales, Montenegro, Pereira, Tebaida
+Paso 3: Armenia, Calarca, Cartago, Manizales, Montenegro, Pereira, Quimbaya, Tebaida
+Total de pasos de alcance: 4 (se estabiliza en el paso 3)
+
