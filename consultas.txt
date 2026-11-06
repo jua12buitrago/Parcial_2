@@ -1,8 +1,0 @@
-Armenia,Manizales
-Cartago,Manizales
-Armenia,Montenegro
-Armenia,Quimbaya
-Armenia,Cali
-Calarca,Pereira
-Tebaida,Tebaida
-Armenia
