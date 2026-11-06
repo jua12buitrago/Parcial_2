@@ -1,3 +1,0 @@
-Línea 11: Cartago, Manizales, cuarenta -> Distancia no numérica ('cuarenta')
-Línea 12: Pereira, Cartago, -15 -> La distancia no puede ser negativa ('-15')
-Línea 20: Palmira,Cali,30, peaje -> Formato incorrecto (se esperaban 3 campos)
