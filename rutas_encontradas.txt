@@ -1,8 +1,0 @@
-=== Armenia -> Manizales ===
-Ruta 1: Armenia -> Manizales (2 ciudades, 100 km)
-Ruta 2: Armenia -> Cartago -> Pereira -> Manizales (4 ciudades, 137 km)
-Ruta 3: Armenia -> Pereira -> Manizales (3 ciudades, 97 km)
-Número de rutas: 3
-Ruta más corta: Armenia -> Manizales
-Ruta de menor distancia: Armenia -> Pereira -> Manizales (97 km)
-
